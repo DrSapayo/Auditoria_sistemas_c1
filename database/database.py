@@ -1,24 +1,33 @@
-from contextlib import asynccontextmanager
+from motor.motor_asyncio import AsyncIOMotorClient
+
+client = AsyncIOMotorClient(
+    "mongodb+srv://admin:admin@cluster0.pjhuwqs.mongodb.net/?retryWrites=true&w=majority"
+)
+
+db = client["PartiDB"]
+
+
+
+'''from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI
 
-cliente = None
+client = None
 db = None
 
-'''LIFESPAN DA APLICACION FASTAPI PARA CONEXION A MONGODB'''
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global client, db
 
-    global cliente, db
-
-    mongo_uri = "mongodb+srv://admin:admin@cluster0.mkvaa9f.mongodb.net/?appName=Cluster0"
-    cliente = AsyncIOMotorClient(mongo_uri)
-    db = cliente["ReLib"]
+    mongo_uri = "mongodb+srv://admin:admin@cluster0.pjhuwqs.mongodb.net/?retryWrites=true&w=majority"
+    client = AsyncIOMotorClient(mongo_uri)
+    db = client["PartiDB"]
 
     try:
-        yield # Aqui corre a aplicacion
+        yield
     finally:
-        cliente.close()
+        client.close()'''
+
 
 '''FUNCION PARA INICIALIZAR LA CONEXION A LA BASE DE DATOS EN EL APP FASTAPI
 def init_db(app: FastAPI, mongo_uri: str, db_name: str= 'ReLib'):
